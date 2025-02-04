@@ -9,7 +9,7 @@
 
 This is the codebase for Armok 13, a Dwarf Fortress Anarachy server, which is a downstream fork of /tg/station based on SpaceStation 13.
 
-## DEVELOPMENT FLOWCHART
+## DEVELOPMENT FLOWCHART (copied from Skyrat-SS13)
 
 ![image](https://i.imgur.com/aJnE4WT.png)
 

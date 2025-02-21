@@ -292,6 +292,7 @@ GLOBAL_LIST_INIT(admin_visible_traits, list(
 		"TRAIT_TENTACLE_IMMUNE" = TRAIT_TENTACLE_IMMUNE,
 		"TRAIT_TESLA_SHOCKIMMUNE" = TRAIT_TESLA_SHOCKIMMUNE,
 		"TRAIT_TETRODOTOXIN_HEALING" = TRAIT_TETRODOTOXIN_HEALING,
+		"TRAIT_THIEF" = TRAIT_THIEF, // ARMOK EDIT
 		"TRAIT_THERMAL_VISION" = TRAIT_THERMAL_VISION,
 		"TRAIT_THROWINGARM" = TRAIT_THROWINGARM,
 		"TRAIT_TIME_STOP_IMMUNE" = TRAIT_TIME_STOP_IMMUNE,
@@ -402,6 +403,11 @@ GLOBAL_LIST_INIT(admin_visible_traits, list(
 	/obj/item/organ/lungs = list(
 		"TRAIT_SPACEBREATHING" = TRAIT_SPACEBREATHING,
 	),
+	// ARMOK EDIT ADDITION START - ARMOK TRAITS
+	/obj/item/food/grown/mushroom/plumphelmet = list(
+		// placeholder for other traits replace when this gets filled
+	),
+	// ARMOK EDIT ADDITION END
 ))
 
 /// value -> trait name, generated as needed for adminning.

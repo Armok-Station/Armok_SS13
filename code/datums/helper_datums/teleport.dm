@@ -210,9 +210,6 @@
 
 /// Validates that the teleport being attempted is valid or not
 /proc/check_teleport_valid(atom/teleported_atom, atom/destination, channel, atom/original_destination = null)
-	if(isnull(destination))
-		return FALSE // Teleporting FROM nullspace is fine, but TO nullspace is not
-
 	var/area/origin_area = get_area(teleported_atom)
 	var/turf/origin_turf = get_turf(teleported_atom)
 

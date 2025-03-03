@@ -186,7 +186,7 @@ GLOBAL_LIST_EMPTY(light_debugged_atoms)
 	ui_interact(usr)
 
 /atom/movable/screen/light_button/edit/ui_state(mob/user)
-	return ADMIN_STATE(R_DEBUG)
+	return GLOB.debug_state
 
 /atom/movable/screen/light_button/edit/can_interact()
 	return TRUE
@@ -362,7 +362,7 @@ GLOBAL_LIST_EMPTY(light_debugged_atoms)
 	ui_interact(usr)
 
 /datum/action/spawn_light/ui_state(mob/user)
-	return ADMIN_STATE(R_DEBUG)
+	return GLOB.debug_state
 
 /datum/action/spawn_light/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

@@ -92,7 +92,6 @@
 
 /obj/projectile/bullet/p50/marksman
 	name = ".50 BMG marksman round"
-	icon_state = null
 	damage = 50
 	range = 50
 	paralyze = 0

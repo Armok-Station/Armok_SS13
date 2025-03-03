@@ -51,7 +51,7 @@
 	equip_delay_other = 50
 	resistance_flags = NONE
 	armor_type = /datum/armor/shoes_jackboots
-	fastening_type = SHOES_SLIPON
+	can_be_tied = FALSE
 	body_parts_covered = FEET|LEGS
 
 /datum/armor/shoes_jackboots

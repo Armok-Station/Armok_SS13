@@ -309,8 +309,6 @@
 	shoes = /obj/item/clothing/shoes/combat
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
 	r_hand = /obj/item/gun/ballistic/rifle/sniper_rifle
-	belt = /obj/item/storage/belt/utility/full
-	glasses = /obj/item/clothing/glasses/welding/up
 
 	implants = list(/obj/item/implant/weapons_auth)
 
@@ -322,8 +320,6 @@
 	suit = /obj/item/clothing/suit/armor/vest
 	mask = /obj/item/clothing/mask/chameleon/gps
 	r_hand = /obj/item/melee/energy/sword/saber
-	belt = /obj/item/storage/belt/utility/full
-	glasses = /obj/item/clothing/glasses/welding/up
 
 /datum/outfit/lavaland_syndicate/comms/icemoon
 	name = "Icemoon Syndicate Comms Agent"

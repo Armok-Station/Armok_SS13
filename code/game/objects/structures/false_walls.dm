@@ -147,10 +147,6 @@
 	to_chat(user, span_notice("The outer plating is <b>welded</b> firmly in place."))
 	return null
 
-/obj/structure/falsewall/mouse_drop_receive(mob/living/dropping, mob/user, params)
-	. = ..()
-	LoadComponent(/datum/component/leanable, dropping)
-
 /*
  * False R-Walls
  */

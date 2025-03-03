@@ -41,8 +41,7 @@
  */
 /datum/component/wall_mounted/proc/on_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
-	if (parent in view(user.client?.view || world.view, user))
-		examine_list += span_notice("\The [hanging_wall_turf] is currently supporting [span_bold("[parent]")]. Deconstruction or excessive damage would cause it to [span_bold("fall to the ground")].")
+	examine_list += span_notice("\The [hanging_wall_turf] is currently supporting [span_bold("[parent]")]. Deconstruction or excessive damage would cause it to [span_bold("fall to the ground")].")
 
 /**
  * When the type of turf changes, if it is changing into a floor we should drop our contents

@@ -9,7 +9,6 @@
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 0.1125)
 	harmful = FALSE
 	newtonian_force = 0.5
-	embed_type = /datum/embedding/foam_dart
 	var/modified = FALSE
 	var/static/list/insertable_items_hint = list(/obj/item/pen)
 	///For colored magazine overlays.
@@ -44,16 +43,15 @@
 
 
 /obj/item/ammo_casing/foam_dart/attackby(obj/item/attacking_item, mob/user, params)
-	if (attacking_item.tool_behaviour != TOOL_SCREWDRIVER || modified)
-		return ..()
-
 	var/obj/projectile/bullet/foam_dart/dart = loaded_projectile
-	modified = TRUE
-	dart.modified = TRUE
-	dart.damage_type = BRUTE
-	dart.set_embed(null) // Cap is what makes them sticky
-	to_chat(user, span_notice("You pop the safety cap off [src]."))
-	update_appearance()
+	if (attacking_item.tool_behaviour == TOOL_SCREWDRIVER && !modified)
+		modified = TRUE
+		dart.modified = TRUE
+		dart.damage_type = BRUTE
+		to_chat(user, span_notice("You pop the safety cap off [src]."))
+		update_appearance()
+	else
+		return ..()
 
 /obj/item/ammo_casing/foam_dart/riot
 	name = "riot foam dart"
@@ -62,5 +60,4 @@
 	icon_state = "foamdart_riot"
 	base_icon_state = "foamdart_riot"
 	tip_color = "red"
-	embed_type = /datum/embedding/foam_dart/riot
-	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT * 1.125)
+	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT* 1.125)

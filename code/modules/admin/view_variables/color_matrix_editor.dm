@@ -32,7 +32,7 @@
 	return ..()
 
 /datum/color_matrix_editor/ui_state(mob/user)
-	return ADMIN_STATE(R_VAREDIT)
+	return GLOB.admin_state
 
 /datum/color_matrix_editor/ui_static_data(mob/user)
 	var/list/data = list()

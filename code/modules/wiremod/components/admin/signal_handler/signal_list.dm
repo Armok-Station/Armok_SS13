@@ -61,7 +61,7 @@ GLOBAL_LIST_INIT(integrated_circuit_global_signal_ids, generate_global_circuit_s
 	)
 
 /obj/item/circuit_component/signal_handler/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /obj/item/circuit_component/signal_handler/ui_static_data(mob/user)
 	. = list()

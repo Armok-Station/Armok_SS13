@@ -104,7 +104,7 @@
 /obj/item/fish/soul/proc/good_ending(mob/living/user)
 	var/mob/living/basic/spaceman/soulman = new(get_turf(user))
 	if(prob(80)) // the percentage is important.
-		soulman.PossessByPlayer(user.ckey)
+		soulman.ckey = user.ckey
 		to_chat(soulman, span_notice("You finally feel at peace."))
 	user.gib()
 	qdel(src)

@@ -104,16 +104,21 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 
 /// Give medbay a happy announcement and put some money into their budget
 /datum/lost_crew_manager/proc/award_succes(datum/mind/revived_mind, list/death_lore)
-	// I am incredibly disappointed in you
+	var/obj/item/radio/headset/radio = new /obj/item/radio/headset/silicon/ai(revived_mind.current) //radio cant be in nullspace or brit shakes
+	radio.set_frequency(FREQ_MEDICAL)
+	radio.name = "Medical Announcer"
+
+	// i am incredibly disappointed in you
 	if(revived_mind.current.stat == DEAD)
-		aas_config_announce(/datum/aas_config_entry/medical_lost_crew_reward, list("PERSON" = revived_mind.name, "AWARD" = 0), null, list(RADIO_CHANNEL_MEDICAL), "Deceased")
+		radio.talk_into(radio, "Sensors indicate lifesigns of [revived_mind.name] have seized. Please inform their family of your failure.", RADIO_CHANNEL_MEDICAL)
 		return
 
 	// You are a credit to society
-	aas_config_announce(/datum/aas_config_entry/medical_lost_crew_reward, list("PERSON" = revived_mind.name, "AWARD" = credits_on_succes), null, list(RADIO_CHANNEL_MEDICAL), "Revived")
+	radio.talk_into(radio, "Sensors indicate continued survival of [revived_mind.name]. Well done, [credits_on_succes]cr has been transferred to the medical budget.", RADIO_CHANNEL_MEDICAL)
 
 	var/datum/bank_account/medical_budget = SSeconomy.get_dep_account(ACCOUNT_MED)
 	medical_budget.adjust_money(credits_on_succes)
+	qdel(radio)
 
 /// A box for recovered items that can only be opened by the new crewmember
 /obj/item/storage/lockbox/mind
@@ -157,15 +162,3 @@ GLOBAL_DATUM_INIT(lost_crew_manager, /datum/lost_crew_manager, new)
 		return NONE
 	context[SCREENTIP_CONTEXT_LMB] = "Use in-hand to unlock"
 	return CONTEXTUAL_SCREENTIP_SET
-
-/datum/aas_config_entry/medical_lost_crew_reward
-	name = "Medical Alert: Lost Crew Revival Program"
-	announcement_lines_map = list(
-		"Deceased" = "Sensors indicate lifesigns of %PERSON have seized. Please inform their family of your failure.",
-		"Revived" = "Sensors indicate continued survival of %PERSON. Well done, %AWARDcr has been transferred to the medical budget."
-	)
-	vars_and_tooltips_map = list(
-		"PERSON" = "will be replaced with body's name",
-		"AWARD" = "with money that medical department receive, if any"
-	)
-	modifiable = FALSE

@@ -401,10 +401,6 @@
 
 	switch(action)
 		if("eject")
-			if(is_printing)
-				say("The buffer is locked while printing.")
-				return
-
 			replace_beaker(ui.user)
 			return TRUE
 
@@ -486,7 +482,7 @@
 			if(isnull(item_count) || item_count <= 0)
 				return FALSE
 			item_count = min(item_count, MAX_CONTAINER_PRINT_AMOUNT)
-			var/volume_in_each = min(round(reagents.total_volume / item_count, CHEMICAL_VOLUME_ROUNDING), initial(selected_container.volume))
+			var/volume_in_each = round(reagents.total_volume / item_count, CHEMICAL_VOLUME_ROUNDING)
 
 			// Generate item name
 			var/item_name_default = initial(selected_container.name)
@@ -502,8 +498,7 @@
 				item_name_default,
 				max_length = MAX_NAME_LEN,
 			)
-
-			if(!item_name || is_printing)
+			if(!item_name)
 				return FALSE
 
 			//start printing
@@ -511,7 +506,7 @@
 			printing_progress = 0
 			printing_total = item_count
 			update_appearance(UPDATE_OVERLAYS)
-			create_containers(ui.user, item_count, item_name, volume_in_each, selected_container)
+			create_containers(ui.user, item_count, item_name, volume_in_each)
 			return TRUE
 
 /**
@@ -522,9 +517,8 @@
  * * item_count - number of containers to print
  * * item_name - the name for each container printed
  * * volume_in_each - volume in each container created
- * * chosen_container - type of the container we're going to print
  */
-/obj/machinery/chem_master/proc/create_containers(mob/user, item_count, item_name, volume_in_each, chosen_container)
+/obj/machinery/chem_master/proc/create_containers(mob/user, item_count, item_name, volume_in_each)
 	PRIVATE_PROC(TRUE)
 
 	//lost power or manually stopped
@@ -538,7 +532,7 @@
 		return
 
 	//print the stuff
-	var/obj/item/reagent_containers/item = new chosen_container(drop_location())
+	var/obj/item/reagent_containers/item = new selected_container(drop_location())
 	adjust_item_drop_location(item)
 	item.name = item_name
 	item.reagents.clear_reagents()
@@ -549,7 +543,7 @@
 	//print more items
 	item_count --
 	if(item_count > 0)
-		addtimer(CALLBACK(src, PROC_REF(create_containers), user, item_count, item_name, volume_in_each, chosen_container), printing_speed)
+		addtimer(CALLBACK(src, PROC_REF(create_containers), user, item_count, item_name, volume_in_each), printing_speed)
 	else
 		is_printing = FALSE
 		update_appearance(UPDATE_OVERLAYS)

@@ -12,7 +12,7 @@ ADMIN_VERB(fishing_calculator, R_DEBUG, "Fishing Calculator", "A calculator... f
 		ui.open()
 
 /datum/fishing_calculator/ui_state(mob/user)
-	return ADMIN_STATE(R_DEBUG)
+	return GLOB.admin_state
 
 /datum/fishing_calculator/ui_close(mob/user)
 	qdel(src)

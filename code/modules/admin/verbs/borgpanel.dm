@@ -16,7 +16,7 @@ ADMIN_VERB(borg_panel, R_ADMIN, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPTION, AD
 	borg = to_borg
 
 /datum/borgpanel/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/borgpanel/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

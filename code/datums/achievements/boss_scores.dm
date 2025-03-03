@@ -52,8 +52,3 @@
 	name = "Wendigos Killed"
 	desc = "You've killed HOW many?"
 	database_id = WENDIGO_SCORE
-
-/datum/award/score/thething_score
-	name = "The Thing Killed"
-	desc = "You've killed HOW many?"
-	database_id = THETHING_SCORE

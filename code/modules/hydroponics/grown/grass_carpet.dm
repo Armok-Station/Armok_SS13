@@ -40,9 +40,6 @@
 	new stacktype(user.drop_location(), grassAmt)
 	qdel(src)
 
-/obj/item/food/grown/grass/make_dryable()
-	AddElement(/datum/element/dryable, /obj/item/stack/tile/hay)
-
 //Fairygrass
 /obj/item/seeds/grass/fairy
 	name = "fairygrass seed pack"

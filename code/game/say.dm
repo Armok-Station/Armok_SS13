@@ -19,9 +19,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_CTF_RED]" = "redteamradio",
 	"[FREQ_CTF_BLUE]" = "blueteamradio",
 	"[FREQ_CTF_GREEN]" = "greenteamradio",
-	"[FREQ_CTF_YELLOW]" = "yellowteamradio",
-	"[FREQ_STATUS_DISPLAYS]" = "captaincast",
-))
+	"[FREQ_CTF_YELLOW]" = "yellowteamradio"
+	))
 
 /**
  * What makes things... talk.
@@ -242,7 +241,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	processed_input = attach_spans(processed_input, spans)
 
 	var/processed_say_mod = say_emphasis(say_mod)
-
+	
 	return "[processed_say_mod], \"[processed_input]\""
 
 /// Transforms the speech emphasis mods from [/atom/movable/proc/say_emphasis] into the appropriate HTML tags. Includes escaping.

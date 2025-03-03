@@ -182,7 +182,10 @@
 		qdel(src)
 		return
 
-/datum/action/item_action/mod_recall/do_effect(trigger_flags)
+/datum/action/item_action/mod_recall/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
 	var/obj/item/implant/mod/implant = target
 	if(!COOLDOWN_FINISHED(src, recall_cooldown))
 		implant.balloon_alert(implant.imp_in, "on cooldown!")

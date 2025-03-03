@@ -109,9 +109,3 @@
 	hazard_min = COLD_ROOM_TEMP - 40
 	warning_max = COLD_ROOM_TEMP + 20
 	hazard_max = COLD_ROOM_TEMP + 40
-
-/datum/tlv/kitchen_temperature
-	warning_min = COLD_ROOM_TEMP - 20
-	hazard_min = COLD_ROOM_TEMP - 40
-	warning_max = BODYTEMP_HEAT_WARNING_1-27
-	hazard_max = BODYTEMP_HEAT_WARNING_1

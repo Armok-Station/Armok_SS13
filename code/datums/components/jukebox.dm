@@ -1,3 +1,6 @@
+/// Checks if the mob has jukebox muted in their preferences
+#define IS_PREF_MUTED(mob) (!isnull(mob.client) && !mob.client.prefs.read_preference(/datum/preference/toggle/sound_jukebox))
+
 // Reasons for appling STATUS_MUTE to a mob's sound status
 /// The mob is deaf
 #define MUTE_DEAF (1<<0)
@@ -217,8 +220,8 @@
 
 	RegisterSignal(new_listener, COMSIG_MOVABLE_MOVED, PROC_REF(listener_moved))
 	RegisterSignals(new_listener, list(SIGNAL_ADDTRAIT(TRAIT_DEAF), SIGNAL_REMOVETRAIT(TRAIT_DEAF)), PROC_REF(listener_deaf))
-	var/pref_volume = new_listener.client?.prefs.read_preference(/datum/preference/numeric/volume/sound_instruments)
-	if(HAS_TRAIT(new_listener, TRAIT_DEAF) || !pref_volume)
+
+	if(HAS_TRAIT(new_listener, TRAIT_DEAF) || IS_PREF_MUTED(new_listener))
 		listeners[new_listener] |= SOUND_MUTE
 
 	if(isnull(active_song_sound))
@@ -227,7 +230,7 @@
 		active_song_sound.channel = CHANNEL_JUKEBOX
 		active_song_sound.priority = 255
 		active_song_sound.falloff = 2
-		active_song_sound.volume = volume * (pref_volume/100)
+		active_song_sound.volume = volume
 		active_song_sound.y = 1
 		active_song_sound.environment = juke_area.sound_environment || SOUND_ENVIRONMENT_NONE
 		active_song_sound.repeat = sound_loops
@@ -280,8 +283,8 @@
 
 	if((reason & MUTE_DEAF) && HAS_TRAIT(listener, TRAIT_DEAF))
 		return FALSE
-	var/pref_volume = listener.client?.prefs.read_preference(/datum/preference/numeric/volume/sound_instruments)
-	if((reason & MUTE_PREF) && !pref_volume)
+
+	if((reason & MUTE_PREF) && IS_PREF_MUTED(listener))
 		return FALSE
 
 	if(reason & MUTE_RANGE)
@@ -376,6 +379,8 @@
 
 /datum/jukebox/single_mob/start_music(mob/solo_listener)
 	register_listener(solo_listener)
+
+#undef IS_PREF_MUTED
 
 #undef MUTE_DEAF
 #undef MUTE_PREF

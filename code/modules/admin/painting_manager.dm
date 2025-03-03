@@ -6,7 +6,7 @@ ADMIN_VERB(painting_manager, R_ADMIN, "Paintings Manager", "View and redact pain
 /datum/paintings_manager
 
 /datum/paintings_manager/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/paintings_manager/ui_close(mob/user)
 	qdel(src)

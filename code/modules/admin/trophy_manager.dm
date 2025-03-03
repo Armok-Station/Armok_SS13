@@ -6,7 +6,7 @@ ADMIN_VERB(trophy_manager, R_ADMIN, "Trophy Manager", "View all trophies.", ADMI
 /datum/trophy_manager
 
 /datum/trophy_manager/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/trophy_manager/ui_close(mob/user)
 	qdel(src)

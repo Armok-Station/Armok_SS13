@@ -22,6 +22,4 @@
 /datum/element/ai_retaliate/proc/on_attacked(mob/victim, atom/attacker)
 	SIGNAL_HANDLER
 
-	if (victim == attacker)
-		return
 	victim.ai_controller?.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, attacker)

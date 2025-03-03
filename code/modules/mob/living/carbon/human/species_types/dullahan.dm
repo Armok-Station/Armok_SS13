@@ -196,15 +196,16 @@
 	name = "Toggle Perspective"
 	desc = "Switch between seeing normally from your head, or blindly from your body."
 
-/datum/action/item_action/organ_action/dullahan/do_effect(trigger_flags)
+/datum/action/item_action/organ_action/dullahan/Trigger(trigger_flags)
+	. = ..()
 	var/obj/item/organ/eyes/dullahan/dullahan_eyes = target
 	dullahan_eyes.tint = dullahan_eyes.tint ? NONE : INFINITY
-	if(!isdullahan(owner))
-		return FALSE
-	var/mob/living/carbon/human/human = owner
-	var/datum/species/dullahan/dullahan_species = human.dna.species
-	dullahan_species.update_vision_perspective(human)
-	return TRUE
+
+	if(ishuman(owner))
+		var/mob/living/carbon/human/human = owner
+		if(isdullahan(human))
+			var/datum/species/dullahan/dullahan_species = human.dna.species
+			dullahan_species.update_vision_perspective(human)
 
 
 /obj/item/dullahan_relay

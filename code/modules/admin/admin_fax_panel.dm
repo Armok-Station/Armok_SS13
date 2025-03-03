@@ -57,7 +57,7 @@ ADMIN_VERB(fax_panel, R_ADMIN, "Fax Panel", "View and respond to faxes sent to C
 		ui.open()
 
 /datum/fax_panel_interface/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/fax_panel_interface/ui_static_data(mob/user)
 	var/list/data = list()

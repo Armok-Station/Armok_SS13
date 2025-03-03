@@ -153,7 +153,11 @@
 	background_icon_state = "bg_default_on"
 	overlay_icon_state = "bg_default_border"
 
-/datum/action/item_action/organ_action/toggle_trip/do_effect(trigger_flags)
+/datum/action/item_action/organ_action/toggle_trip/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
+
 	var/obj/item/organ/brain/primate/monkey_brain = target
 	if(monkey_brain.tripping)
 		monkey_brain.tripping = FALSE
@@ -164,7 +168,6 @@
 		background_icon_state = "bg_default_on"
 		to_chat(monkey_brain.owner, span_notice("You will now stumble while colliding with people who are in combat mode."))
 	build_all_button_icons()
-	return TRUE
 
 /obj/item/organ/brain/primate/on_mob_insert(mob/living/carbon/primate)
 	. = ..()

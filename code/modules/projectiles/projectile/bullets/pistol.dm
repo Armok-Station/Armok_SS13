@@ -13,7 +13,7 @@
 	pain_stam_pct = 0.4
 	pain_mult = 5
 	jostle_pain_mult = 6
-	rip_time = 1 SECONDS
+	rip_time = 10
 
 /obj/projectile/bullet/c9mm/ap
 	name = "9mm armor-piercing bullet"
@@ -55,7 +55,6 @@
 
 /obj/projectile/bullet/c10mm/reaper
 	name = "10mm reaper pellet"
-	icon_state = null
 	damage = 50
 	armour_penetration = 40
 	tracer_type = /obj/effect/projectile/tracer/sniper
@@ -93,4 +92,4 @@
 	pain_stam_pct = 0.25
 	pain_mult = 3
 	jostle_pain_mult = 6
-	rip_time = 0.5 SECONDS
+	rip_time = 5

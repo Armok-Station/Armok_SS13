@@ -75,7 +75,9 @@
 		return FALSE
 	return ..()
 
-/datum/action/item_action/activate_pill/do_effect(trigger_flags)
+/datum/action/item_action/activate_pill/Trigger(trigger_flags)
+	if(!..())
+		return FALSE
 	owner.balloon_alert_to_viewers("[owner] grinds their teeth!", "You grit your teeth.")
 	if(!do_after(owner, owner.stat * (2.5 SECONDS), owner,  IGNORE_USER_LOC_CHANGE | IGNORE_INCAPACITATED))
 		return FALSE

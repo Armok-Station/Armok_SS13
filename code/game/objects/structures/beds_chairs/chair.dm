@@ -92,8 +92,7 @@
 	return mutable_appearance(icon, "[icon_state]_armrest")
 
 /obj/structure/chair/proc/update_armrest()
-	if (cached_color_filter)
-		armrest = filter_appearance_recursive(armrest, cached_color_filter)
+	armrest = color_atom_overlay(armrest)
 	update_appearance()
 
 /obj/structure/chair/update_overlays()
@@ -349,8 +348,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	custom_materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT)
 	item_flags = SKIP_FANTASY_ON_SPAWN
 
-	// Duration of daze inflicted when the chair is smashed against someone from behind.
-	var/daze_amount = 3 SECONDS
+	// Whether or not the chair causes the target to become shove stun vulnerable if smashed against someone from behind.
+	var/inflicts_stun_vulnerability = TRUE
 
 	// What structure type does this chair become when placed?
 	var/obj/structure/chair/origin_type = /obj/structure/chair
@@ -433,9 +432,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	user.visible_message(span_danger("[user] smashes [src] to pieces against [give_this_fucker_the_chair]"))
 	if(!HAS_TRAIT(give_this_fucker_the_chair, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED))
 		if(vulnerable_hit || give_this_fucker_the_chair.get_timed_status_effect_duration(/datum/status_effect/staggered))
-			give_this_fucker_the_chair.Knockdown(2 SECONDS, daze_amount = daze_amount)
+			give_this_fucker_the_chair.Knockdown(2 SECONDS)
 			if(give_this_fucker_the_chair.health < give_this_fucker_the_chair.maxHealth*0.5)
 				give_this_fucker_the_chair.adjust_confusion(10 SECONDS)
+			if(inflicts_stun_vulnerability)
+				give_this_fucker_the_chair.apply_status_effect(/datum/status_effect/next_shove_stuns)
 
 	smash(user)
 
@@ -469,7 +470,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	hitsound = 'sound/items/weapons/genhit1.ogg'
 	origin_type = /obj/structure/chair/stool/bamboo
 	max_integrity = 40 //Submissive and breakable unlike the chad iron stool
-	daze_amount = 0 //Not hard enough to cause them to become dazed
+	inflicts_stun_vulnerability = FALSE //Not hard enough to cause them to become vulnerable to a shove
 
 /obj/item/chair/stool/narsie_act()
 	return //sturdy enough to ignore a god
@@ -483,7 +484,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	hitsound = 'sound/items/weapons/genhit1.ogg'
 	origin_type = /obj/structure/chair/wood
 	custom_materials = null
-	daze_amount = 0
+	inflicts_stun_vulnerability = FALSE
 
 /obj/item/chair/wood/narsie_act()
 	return
@@ -557,10 +558,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	return NONE
 
 /obj/structure/chair/mime/post_buckle_mob(mob/living/M)
-	M.add_offsets(type, z_add = 5)
+	M.pixel_y += 5
 
 /obj/structure/chair/mime/post_unbuckle_mob(mob/living/M)
-	M.remove_offsets(type)
+	M.pixel_y -= 5
+
 
 /obj/structure/chair/plastic
 	icon_state = "plastic_chair"
@@ -575,13 +577,13 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	fishing_modifier = -10
 
 /obj/structure/chair/plastic/post_buckle_mob(mob/living/Mob)
-	Mob.add_offsets(type, z_add = 2)
-	. = ..()
+	Mob.pixel_y += 2
+	.=..()
 	if(iscarbon(Mob))
 		INVOKE_ASYNC(src, PROC_REF(snap_check), Mob)
 
 /obj/structure/chair/plastic/post_unbuckle_mob(mob/living/Mob)
-	Mob.remove_offsets(type)
+	Mob.pixel_y -= 2
 
 /obj/structure/chair/plastic/proc/snap_check(mob/living/carbon/Mob)
 	if (Mob.nutrition >= NUTRITION_LEVEL_FAT)
@@ -604,7 +606,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/chair/stool/bar, 0)
 	throw_range = 5 //Lighter Weight --> Flies Farther.
 	custom_materials = list(/datum/material/plastic =SHEET_MATERIAL_AMOUNT)
 	max_integrity = 70
-	daze_amount = 0
+	inflicts_stun_vulnerability = FALSE
 	origin_type = /obj/structure/chair/plastic
 
 /obj/structure/chair/musical

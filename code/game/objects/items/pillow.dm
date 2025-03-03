@@ -22,8 +22,6 @@
 	var/hit_sound
 	///if we have a brick inside us
 	var/bricked = FALSE
-	drop_sound = SFX_CLOTH_DROP
-	pickup_sound = SFX_CLOTH_PICKUP
 
 /obj/item/pillow/Initialize(mapload)
 	. = ..()

@@ -60,4 +60,4 @@
 	strip_delay = 30
 	equip_delay_other = 50
 	resistance_flags = NONE
-	fastening_type = SHOES_SLIPON
+	can_be_tied = FALSE

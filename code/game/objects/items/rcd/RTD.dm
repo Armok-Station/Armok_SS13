@@ -34,62 +34,79 @@
 	var/design_category = "Standard"
 	/// design selected by player
 	var/datum/tile_info/selected_design
-	/// direction currently selected
-	var/selected_direction = SOUTH
+	/// temp var to store an single design from GLOB.floor_design while iterating through this list
+	var/datum/tile_info/tile_design
 	/// overlays on a tile
 	var/list/design_overlays = list()
 	var/ranged = TRUE
-
 /// stores the name, type, icon & cost for each tile type
 /datum/tile_info
 	/// name of this tile design for ui
 	var/name
 	/// path to create this tile type
 	var/obj/item/stack/tile/tile_type
-	/// path for the turf
-	var/turf/open/floor/turf_type
-	/// icon file used by the turf
-	var/icon_file
-	/// icon_state for this tile to display for ui
+	/// icon for this tile to display for ui
 	var/icon_state
 	/// rcd units to consume for this tile creation
 	var/cost
 
 	///directions this tile can be placed on the turf
-	var/list/tile_directions_text
-	var/list/tile_directions_numbers
-
-	/// CSS selector for the icon in TGUI
-	var/icon_css_class
+	var/list/tile_directions
+	/// user friendly names of the tile_directions to be sent to ui
+	var/list/ui_directional_data
+	/// current direction this tile should be rotated in before being placed on the plating
+	var/selected_direction
 
 /// decompress a single tile design list element from GLOB.floor_designs into its individual variables
-/datum/tile_info/New(list/design)
+/datum/tile_info/proc/set_info(list/design)
 	name = design["name"]
 	tile_type = design["type"]
-	turf_type = initial(tile_type.turf_type)
-	icon_file = initial(turf_type.icon)
-	icon_state = initial(turf_type.icon_state)
-	icon_css_class = sanitize_css_class_name("[icon_file]-[icon_state]")
-	var/obj/item/stack/tile/tile_obj = new tile_type  // lists stored on types compile to be inside New()
-	tile_directions_text = assoc_to_keys(tile_obj.tile_rotate_dirs)
-	tile_directions_numbers = tile_obj.tile_rotate_dirs_number
-	qdel(tile_obj)
+	icon_state = initial(tile_type.icon_state)
 	cost = design["tile_cost"]
 
-/// fill all information to be sent to the UI
-/datum/tile_info/proc/fill_ui_data(list/data, selected_direction)
-	data["selected_recipe"] = name
-	data["selected_icon"] = icon_css_class
+	tile_directions = design["tile_rotate_dirs"]
+	if(!tile_directions)
+		selected_direction = null
+		ui_directional_data = null
+		return
 
-	if(!tile_directions_text)
+	ui_directional_data = list()
+	for(var/tile_direction in tile_directions)
+		ui_directional_data += dir2text(tile_direction)
+	selected_direction = tile_directions[1]
+
+/// fill all information to be sent to the UI
+/datum/tile_info/proc/fill_ui_data(list/data)
+	data["selected_recipe"] = name
+	data["selected_icon"] = get_icon_state()
+
+	if(!tile_directions)
 		data["selected_direction"] = null
 		return
 
-	data["tile_dirs"] = tile_directions_text
+	data["tile_dirs"] = ui_directional_data
 	data["selected_direction"] = dir2text(selected_direction)
 
+/// change the direction the tile is laid on the turf
+/datum/tile_info/proc/set_direction(direction)
+	if(tile_directions == null || !(direction in tile_directions))
+		return
+	selected_direction = direction
+
+/**
+ * retrieve the icon for this tile design based on its direction
+ * for complex directions like NORTHSOUTH etc we create an seperated blended icon in the asset file for example floor-northsouth
+ * so we check which icons we want to retrieve based on its direction
+ * for basic directions its rotated with CSS so there is no need for icon
+ */
+/datum/tile_info/proc/get_icon_state()
+	var/prefix = ""
+	if(selected_direction)
+		prefix = (selected_direction in GLOB.tile_dont_rotate) ? "" : "-[dir2text(selected_direction)]"
+	return icon_state + prefix
+
 ///convinience proc to quickly convert the tile design into an physical tile to lay on the plating
-/datum/tile_info/proc/new_tile(loc, selected_direction)
+/datum/tile_info/proc/new_tile(loc)
 	var/obj/item/stack/tile/final_tile = new tile_type(loc, 1)
 	final_tile.turf_dir = selected_direction
 	return final_tile
@@ -125,13 +142,13 @@
 
 /obj/item/construction/rtd/Initialize(mapload)
 	. = ..()
-	var/list/design = GLOB.floor_designs[root_category][design_category][1]
-	if(!design["datum"])
-		populate_rtd_datums()
-	selected_design = design["datum"]
+	selected_design = new
+	tile_design = new
+	selected_design.set_info(GLOB.floor_designs[root_category][design_category][1])
 
 /obj/item/construction/rtd/Destroy()
-	selected_design = null
+	QDEL_NULL(selected_design)
+	QDEL_NULL(tile_design)
 	QDEL_LIST(design_overlays)
 	return ..()
 
@@ -165,11 +182,8 @@
 
 		var/list/designs = list() //initialize all designs under this category
 		for(var/list/design as anything in target_category)
-			var/datum/tile_info/tile_design = design["datum"]
-			if(!istype(tile_design))
-				populate_rtd_datums()
-				tile_design = design["datum"]
-			designs += list(list("name" = tile_design.name, "icon" = tile_design.icon_css_class))
+			tile_design.set_info(design)
+			designs += list(list("name" = tile_design.name, "icon" = tile_design.get_icon_state()))
 
 		data["categories"] += list(list("category_name" = sub_category, "recipes" = designs))
 
@@ -179,7 +193,7 @@
 	var/list/data = ..()
 
 	data["selected_category"] = design_category
-	selected_design.fill_ui_data(data, selected_direction)
+	selected_design.fill_ui_data(data)
 
 	return data
 
@@ -198,7 +212,7 @@
 			var/direction = text2dir(params["dir"])
 			if(!direction)
 				return FALSE
-			selected_direction = direction
+			selected_design.set_direction(direction)
 
 		if("recipe")
 			var/list/main_root = floor_designs[root_category]
@@ -213,10 +227,7 @@
 
 			QDEL_LIST(design_overlays)
 			design_category = params["category_name"]
-			if(!target_design["datum"])
-				populate_rtd_datums()
-			selected_design = target_design["datum"]
-			selected_direction = SOUTH
+			selected_design.set_info(target_design)
 			blueprint_changed = TRUE
 
 	return TRUE
@@ -274,8 +285,8 @@
 					//store all information about this tile
 					root_category = main_root
 					design_category = sub_category
-					selected_design = design_info["datum"]
-					selected_direction = floor.dir
+					selected_design.set_info(design_info)
+					selected_design.set_direction(floor.dir)
 					balloon_alert(user, "tile changed to [selected_design.name]")
 
 					return ITEM_INTERACT_SUCCESS
@@ -309,7 +320,7 @@
 		return ITEM_INTERACT_BLOCKING
 	activate()
 	//step 1 create tile
-	var/obj/item/stack/tile/final_tile = selected_design.new_tile(user.drop_location(), selected_direction)
+	var/obj/item/stack/tile/final_tile = selected_design.new_tile(user.drop_location())
 	if(QDELETED(final_tile)) //if you were standing on a stack of tiles this newly spawned tile could get merged with it cause its spawned on your location
 		qdel(rcd_effect)
 		balloon_alert(user, "tile got merged with the stack beneath you!")

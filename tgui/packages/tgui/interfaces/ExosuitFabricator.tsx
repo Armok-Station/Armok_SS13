@@ -242,8 +242,8 @@ const Queue = (props: QueueProps) => {
             />
           </Section>
         </Stack.Item>
-        <Stack.Item grow style={{ overflowY: 'auto', overflowX: 'hidden' }}>
-          <Section fill>
+        <Stack.Item grow>
+          <Section fill style={{ overflow: 'auto' }}>
             <QueueList
               availableMaterials={availableMaterials}
               SHEET_MATERIAL_AMOUNT={SHEET_MATERIAL_AMOUNT}

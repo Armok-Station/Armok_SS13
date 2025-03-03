@@ -133,8 +133,6 @@ export type Item = {
   category: string;
   cost: JSX.Element | string;
   desc: JSX.Element | string;
-  population_tooltip: string;
-  insufficient_population: BooleanLike;
   disabled: BooleanLike;
 };
 
@@ -186,19 +184,9 @@ const ItemList = (props: ItemListProps) => {
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
-                          opacity: item.insufficient_population ? '0.5' : '1',
                         }}
                       >
-                        {item.insufficient_population ? (
-                          <Tooltip content={item.population_tooltip}>
-                            <Box>
-                              <Icon mr="8px" name="lock" lineHeight="36px" />
-                              {item.name}
-                            </Box>
-                          </Tooltip>
-                        ) : (
-                          item.name
-                        )}
+                        {item.name}
                       </Stack.Item>
                       <Stack.Item>
                         <Tooltip content={item.desc}>
@@ -227,21 +215,6 @@ const ItemList = (props: ItemListProps) => {
                         </Button>
                       }
                     >
-                      {item.insufficient_population ? (
-                        <Box
-                          mt="-12px"
-                          mb="-6px"
-                          style={{
-                            opacity: '0.5',
-                          }}
-                        >
-                          <Icon name="lock" lineHeight="36px" />{' '}
-                          {item.population_tooltip}
-                        </Box>
-                      ) : (
-                        ''
-                      )}
-
                       <Box
                         style={{
                           opacity: '0.75',

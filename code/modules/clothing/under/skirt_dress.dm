@@ -26,7 +26,6 @@
 	name = "sailor dress"
 	desc = "Formal wear for a leading lady."
 	icon_state = "sailor_dress"
-	alternate_worn_layer = UNDER_SUIT_LAYER
 	greyscale_config = /datum/greyscale_config/sailor_dress
 	greyscale_config_worn = /datum/greyscale_config/sailor_dress/worn
 	greyscale_colors = "#0000ff#cc0000#eaeaea"
@@ -37,7 +36,6 @@
 	name = "wedding dress"
 	desc = "A luxurious gown for once-in-a-lifetime occasions."
 	icon_state = "wedding_dress"
-	alternate_worn_layer = UNDER_SUIT_LAYER
 	inhand_icon_state = null
 	body_parts_covered = CHEST|GROIN|LEGS
 	flags_inv = HIDESHOES
@@ -50,7 +48,6 @@
 	name = "evening gown"
 	desc = "Fancy dress for space bar singers."
 	icon_state = "evening_gown"
-	alternate_worn_layer = UNDER_SUIT_LAYER
 	inhand_icon_state = null
 	greyscale_config = /datum/greyscale_config/evening_dress
 	greyscale_config_worn = /datum/greyscale_config/evening_dress/worn
@@ -97,7 +94,6 @@
 	name = "tango dress"
 	desc = "Filled with Latin fire."
 	icon_state = "tango"
-	alternate_worn_layer = UNDER_SUIT_LAYER
 	custom_price = PAYCHECK_CREW
 	greyscale_colors = "#ff0000#1c1c1c"
 	greyscale_config = /datum/greyscale_config/tango

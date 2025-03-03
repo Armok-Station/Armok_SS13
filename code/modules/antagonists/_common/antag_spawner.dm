@@ -47,17 +47,10 @@
 
 /obj/item/antag_spawner/contract/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
-	if(.)
+	if(used || polling || !ishuman(usr))
 		return
-	switch(action)
-		if("buy")
-			if(used || polling || !ishuman(ui.user))
-				return
-			var/selected_school = params["school"]
-			if(!(selected_school in ALL_APPRENTICE_TYPES))
-				return
-			INVOKE_ASYNC(src, PROC_REF(poll_for_student), ui.user, params["school"])
-			SStgui.close_uis(src)
+	INVOKE_ASYNC(src, PROC_REF(poll_for_student), usr, params["school"])
+	SStgui.close_uis(src)
 
 /obj/item/antag_spawner/contract/proc/poll_for_student(mob/living/carbon/human/teacher, apprentice_school)
 	balloon_alert(teacher, "contacting apprentice...")
@@ -76,7 +69,7 @@
 	new /obj/effect/particle_effect/fluid/smoke(T)
 	var/mob/living/carbon/human/M = new/mob/living/carbon/human(T)
 	C.prefs.safe_transfer_prefs_to(M, is_antag = TRUE)
-	M.PossessByPlayer(C.key)
+	M.key = C.key
 	var/datum/mind/app_mind = M.mind
 
 	var/datum/antagonist/wizard/apprentice/app = new()
@@ -247,7 +240,7 @@
 	borg.mmi.brainmob.name = brainopsname
 	borg.real_name = borg.name
 
-	borg.PossessByPlayer(C.key)
+	borg.key = C.key
 
 	borg.mind.add_antag_datum(antag_datum, creator_op ? creator_op.get_team() : null)
 	borg.mind.special_role = special_role_name
@@ -290,7 +283,7 @@
 	var/mob/living/basic/demon/spawned = new demon_type(T)
 	new /obj/effect/dummy/phased_mob(T, spawned)
 
-	spawned.PossessByPlayer(C.key)
+	spawned.key = C.key
 
 /obj/item/antag_spawner/slaughter_demon/laughter
 	name = "vial of tickles"

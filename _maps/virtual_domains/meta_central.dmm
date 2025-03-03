@@ -1339,6 +1339,13 @@
 /obj/item/pickaxe/rusted,
 /turf/open/floor/iron,
 /area/virtual_domain)
+"lx" = (
+/obj/structure/barricade/sandbags,
+/obj/machinery/deployable_turret{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
 "lC" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/public/glass{
@@ -7777,7 +7784,7 @@ LG
 uS
 hd
 Ol
-wN
+lx
 vU
 hp
 lu

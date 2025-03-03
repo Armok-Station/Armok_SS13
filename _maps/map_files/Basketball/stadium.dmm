@@ -491,6 +491,10 @@
 	},
 /turf/open/floor/wood,
 /area/centcom/basketball)
+"Ev" = (
+/mob/living/simple_animal/robot_customer,
+/turf/open/floor/wood,
+/area/centcom/basketball)
 "Gh" = (
 /obj/structure/table/wood,
 /obj/item/storage/box/drinkingglasses,
@@ -979,7 +983,7 @@ nE
 pu
 ZM
 kc
-tX
+Ev
 Cw
 ku
 xP
@@ -1195,7 +1199,7 @@ nE
 pu
 pu
 kc
-tX
+Ev
 Cw
 HH
 dJ

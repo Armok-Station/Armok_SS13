@@ -5,7 +5,7 @@ ADMIN_VERB(outfit_manager, R_DEBUG|R_ADMIN, "Outfit Manager", "View and edit out
 /datum/outfit_manager
 
 /datum/outfit_manager/ui_state(mob/user)
-	return ADMIN_STATE(R_DEBUG | R_ADMIN)
+	return GLOB.admin_state
 
 /datum/outfit_manager/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

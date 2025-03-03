@@ -20,7 +20,7 @@ ADMIN_VERB(force_event, R_FUN, "Trigger Event", "Forces an event to occur.", ADM
 		ui.open()
 
 /datum/force_event/ui_state(mob/user)
-	return ADMIN_STATE(R_FUN)
+	return GLOB.fun_state
 
 /datum/force_event/ui_static_data(mob/user)
 	var/static/list/category_to_icons

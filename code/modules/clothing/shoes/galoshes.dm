@@ -11,7 +11,7 @@
 	armor_type = /datum/armor/shoes_galoshes
 	can_be_bloody = FALSE
 	custom_price = PAYCHECK_CREW * 3
-	fastening_type = SHOES_SLIPON
+	can_be_tied = FALSE
 	///How much these boots affect fishing difficulty
 	var/fishing_modifier = -3
 

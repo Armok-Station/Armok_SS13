@@ -1,4 +1,3 @@
-#ifndef DISABLE_DREAMLUAU
 /* This comment bypasses grep checks */ /var/__dreamluau
 
 /* This comment also bypasses grep checks */ /var/__dreamluau_exists
@@ -300,4 +299,3 @@
  */
 #define DREAMLUAU_CLEAR_REF_USERDATA(object) DREAMLUAU_CALL(clear_ref_userdata)((object))
 
-#endif

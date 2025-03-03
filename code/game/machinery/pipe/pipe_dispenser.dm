@@ -171,8 +171,10 @@
 
 /obj/machinery/pipedispenser/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
-	default_unfasten_wrench(user, tool, time = 4 SECONDS)
-	return ITEM_INTERACT_SUCCESS
+	if(default_unfasten_wrench(user, tool, time = 4 SECONDS))
+		user << browse(null, "window=pipedispenser")
+
+	return TRUE
 
 
 /obj/machinery/pipedispenser/disposal

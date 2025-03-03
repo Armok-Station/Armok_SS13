@@ -30,7 +30,9 @@
 		return
 	return ..()
 
-/datum/action/item_action/mod/do_effect(trigger_flags)
+/datum/action/item_action/mod/Trigger(trigger_flags)
+	if(!IsAvailable(feedback = TRUE))
+		return FALSE
 	var/obj/item/mod/control/mod = target
 	if(mod.malfunctioning && prob(75))
 		mod.balloon_alert(usr, "button malfunctions!")
@@ -42,7 +44,7 @@
 	desc = "LMB: Deploy/Undeploy part. RMB: Deploy/Undeploy full suit."
 	button_icon_state = "deploy"
 
-/datum/action/item_action/mod/deploy/do_effect(trigger_flags)
+/datum/action/item_action/mod/deploy/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -62,7 +64,7 @@
 	/// First time clicking this will set it to TRUE, second time will activate it.
 	var/ready = FALSE
 
-/datum/action/item_action/mod/activate/do_effect(trigger_flags)
+/datum/action/item_action/mod/activate/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -90,7 +92,7 @@
 	desc = "Toggle a MODsuit module."
 	button_icon_state = "module"
 
-/datum/action/item_action/mod/module/do_effect(trigger_flags)
+/datum/action/item_action/mod/module/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -105,7 +107,7 @@
 	desc = "Open the MODsuit's panel."
 	button_icon_state = "panel"
 
-/datum/action/item_action/mod/panel/do_effect(trigger_flags)
+/datum/action/item_action/mod/panel/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return
@@ -178,7 +180,7 @@
 	pinner = null
 	return ..()
 
-/datum/action/item_action/mod/pinnable/module/do_effect(trigger_flags)
+/datum/action/item_action/mod/pinnable/module/Trigger(trigger_flags)
 	. = ..()
 	if(!.)
 		return

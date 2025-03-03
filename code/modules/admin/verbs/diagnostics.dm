@@ -56,9 +56,7 @@ ADMIN_VERB(radio_report, R_DEBUG, "Radio Report", "Shows a report of all radio d
 				else
 					output += "&nbsp;&nbsp;&nbsp;&nbsp;[device]<br>"
 
-	var/datum/browser/browser = new(user, "radioreport", "Radio Logs", 400, 440)
-	browser.set_content(output)
-	browser.open()
+	user << browse(output,"window=radioreport")
 	BLACKBOX_LOG_ADMIN_VERB("Show Radio Report")
 
 ADMIN_VERB(reload_admins, R_NONE, "Reload Admins", "Reloads all admins from the database.", ADMIN_CATEGORY_MAIN)

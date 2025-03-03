@@ -14,23 +14,21 @@
 	var/desc = "Heavy gusts of wind blanket the area, periodically knocking down anyone caught in the open."
 	/// The message displayed in chat to foreshadow the weather's beginning
 	var/telegraph_message = span_warning("The wind begins to pick up.")
-	/// How long from the beginning of the telegraph until the weather begins
-	var/telegraph_duration = 30 SECONDS
+	/// In deciseconds, how long from the beginning of the telegraph until the weather begins
+	var/telegraph_duration = 300
 	/// The sound file played to everyone on an affected z-level
 	var/telegraph_sound
-	/// Volume of the telegraph sound
-	var/telegraph_sound_vol
 	/// The overlay applied to all tiles on the z-level
 	var/telegraph_overlay
 
 	/// Displayed in chat once the weather begins in earnest
 	var/weather_message = span_userdanger("The wind begins to blow ferociously!")
-	/// How long the weather lasts once it begins
-	var/weather_duration = 2 MINUTES
+	/// In deciseconds, how long the weather lasts once it begins
+	var/weather_duration = 1200
 	/// See above - this is the lowest possible duration
-	var/weather_duration_lower = 2 MINUTES
+	var/weather_duration_lower = 1200
 	/// See above - this is the highest possible duration
-	var/weather_duration_upper = 2.5 MINUTES
+	var/weather_duration_upper = 1500
 	/// Looping sound while weather is occuring
 	var/weather_sound
 	/// Area overlay while the weather is occuring
@@ -40,12 +38,10 @@
 
 	/// Displayed once the weather is over
 	var/end_message = span_danger("The wind relents its assault.")
-	/// How long the "wind-down" graphic will appear before vanishing entirely
-	var/end_duration = 30 SECONDS
+	/// In deciseconds, how long the "wind-down" graphic will appear before vanishing entirely
+	var/end_duration = 300
 	/// Sound that plays while weather is ending
 	var/end_sound
-	/// Volume of the sound that plays while weather is ending
-	var/end_sound_vol
 	/// Area overlay while weather is ending
 	var/end_overlay
 
@@ -125,7 +121,7 @@
 	SSweather.processing |= src
 	update_areas()
 	if(telegraph_duration)
-		send_alert(telegraph_message, telegraph_sound, telegraph_sound_vol)
+		send_alert(telegraph_message, telegraph_sound)
 	addtimer(CALLBACK(src, PROC_REF(start)), telegraph_duration)
 
 /**
@@ -160,7 +156,7 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_WEATHER_WINDDOWN(type), src)
 	stage = WIND_DOWN_STAGE
 	update_areas()
-	send_alert(end_message, end_sound, end_sound_vol)
+	send_alert(end_message, end_sound)
 	addtimer(CALLBACK(src, PROC_REF(end)), end_duration)
 
 /**
@@ -181,7 +177,7 @@
 		SEND_SIGNAL(impacted_area, COMSIG_WEATHER_ENDED_IN_AREA(type), src)
 
 // handles sending all alerts
-/datum/weather/proc/send_alert(alert_msg, alert_sfx, alert_sfx_vol = 100)
+/datum/weather/proc/send_alert(alert_msg, alert_sfx)
 	for(var/z_level in impacted_z_levels)
 		for(var/mob/player as anything in SSmobs.clients_by_zlevel[z_level])
 			if(!can_get_alert(player))
@@ -189,8 +185,7 @@
 			if(alert_msg)
 				to_chat(player, alert_msg)
 			if(alert_sfx)
-				player.stop_sound_channel(CHANNEL_WEATHER)
-				SEND_SOUND(player, sound(alert_sfx, channel = CHANNEL_WEATHER, volume = alert_sfx_vol))
+				SEND_SOUND(player, sound(alert_sfx))
 
 // the checks for if a mob should receive alerts, returns TRUE if can
 /datum/weather/proc/can_get_alert(mob/player)

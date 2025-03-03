@@ -93,7 +93,6 @@
 /// Used for the legion turret.
 /obj/projectile/beam/legion
 	name = "blood pulse"
-	icon_state = null
 	hitsound = 'sound/effects/magic/magic_missile.ogg'
 	damage = 19
 	range = 6

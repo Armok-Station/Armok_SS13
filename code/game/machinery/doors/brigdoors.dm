@@ -31,11 +31,14 @@
 	var/list/flashers = list()
 	///List of weakrefs to nearby closets
 	var/list/closets = list()
-	///Channel to report prisoneer's release
-	var/broadcast_channel = RADIO_CHANNEL_SECURITY
+	///needed to send messages to sec radio
+	var/obj/item/radio/sec_radio
 
 /obj/machinery/status_display/door_timer/Initialize(mapload)
 	. = ..()
+
+	sec_radio = new/obj/item/radio(src)
+	sec_radio.set_listening(FALSE)
 
 	if(id != null)
 		for(var/obj/machinery/door/window/brigdoor/M in urange(20, src))
@@ -133,7 +136,8 @@
 		return 0
 
 	if(!forced)
-		aas_config_announce(/datum/aas_config_entry/brig_cell_release_announcement, list("CELL" = name), src, list(broadcast_channel))
+		sec_radio.set_frequency(FREQ_SECURITY)
+		sec_radio.talk_into(src, "Timer has expired. Releasing prisoner.", FREQ_SECURITY)
 
 	timing = FALSE
 	activation_time = 0
@@ -275,15 +279,6 @@
 		if(!istype(get_area(src), area_type))
 			continue
 		timer_end(forced = TRUE)
-
-/datum/aas_config_entry/brig_cell_release_announcement
-	name = "Security Alert: Cell Timer Expired"
-	announcement_lines_map = list(
-		"Message" = "Timer for %CELL has expired. Releasing prisoner.",
-	)
-	vars_and_tooltips_map = list(
-		"CELL" = "will be replaced with the cell name.",
-	)
 
 #undef PRESET_SHORT
 #undef PRESET_MEDIUM

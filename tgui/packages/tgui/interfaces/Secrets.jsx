@@ -456,13 +456,13 @@ const FunTab = (props) => {
             />
           </Stack.Item>
           <Stack.Item>
-            <Button
-              icon="dollar-sign"
-              lineHeight={lineHeightNormal}
+            <NoticeBox
+              mb={-0.5}
               width={buttonWidthNormal}
-              content="Dpt Order Cooldown"
-              onClick={() => act('department_cooldown_override')}
-            />
+              height={lineHeightNormal}
+            >
+              Your admin button here, coder!
+            </NoticeBox>
           </Stack.Item>
         </Stack>
       </Stack.Item>

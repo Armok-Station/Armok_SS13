@@ -4,7 +4,7 @@
 	icon_state = "cowboy_brown"
 	armor_type = /datum/armor/shoes_cowboy
 	custom_price = PAYCHECK_CREW
-	fastening_type = SHOES_SLIPON
+	can_be_tied = FALSE
 	interaction_flags_mouse_drop = NEED_HANDS | NEED_DEXTERITY
 
 	var/max_occupants = 4
@@ -106,13 +106,3 @@
 	armor_type = /datum/armor/shoes_combat
 	has_spurs = TRUE
 	body_parts_covered = FEET|LEGS
-
-// Laced variants for loadout
-/obj/item/clothing/shoes/cowboy/laced
-	fastening_type = SHOES_LACED
-
-/obj/item/clothing/shoes/cowboy/white/laced
-	fastening_type = SHOES_LACED
-
-/obj/item/clothing/shoes/cowboy/black/laced
-	fastening_type = SHOES_LACED

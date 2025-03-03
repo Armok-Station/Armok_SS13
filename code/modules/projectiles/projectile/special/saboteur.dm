@@ -6,7 +6,7 @@
 
 /obj/projectile/energy/fisher
 	name = "attenuated kinetic force"
-	icon_state = null
+	alpha = 0
 	damage = 0
 	damage_type = BRUTE
 	armor_flag = BOMB

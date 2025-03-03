@@ -82,8 +82,6 @@
 
 /// Befriends someone
 /datum/ai_controller/hostile_friend/proc/befriend(mob/living/new_friend)
-	if(QDELETED(new_friend))
-		return
 	var/mob/living/old_friend = blackboard[BB_HOSTILE_FRIEND]
 	if(old_friend)
 		unfriend(old_friend)

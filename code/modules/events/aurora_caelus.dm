@@ -25,9 +25,8 @@
 		return
 	for(var/V in GLOB.player_list)
 		var/mob/M = V
-		var/pref_volume = M.client.prefs.read_preference(/datum/preference/numeric/volume/sound_midi)
-		if(pref_volume > 0 && is_station_level(M.z))
-			M.playsound_local(M, 'sound/ambience/aurora_caelus/aurora_caelus.ogg', 20 * (pref_volume/100), FALSE, pressure_affected = FALSE)
+		if((M.client.prefs.read_preference(/datum/preference/toggle/sound_midi)) && is_station_level(M.z))
+			M.playsound_local(M, 'sound/ambience/aurora_caelus/aurora_caelus.ogg', 20, FALSE, pressure_affected = FALSE)
 	fade_space(fade_in = TRUE)
 	fade_kitchen(fade_in = TRUE)
 

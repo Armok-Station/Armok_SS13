@@ -121,8 +121,6 @@
 	var/list/datum/action/actions
 	///list of paths of action datums to give to the item on New().
 	var/list/actions_types
-	///Slot flags in which this item grants actions. If null, defaults to the item's slot flags (so actions are granted when worn)
-	var/action_slots = null
 
 	//Since any item can now be a piece of clothing, this has to be put here so all items share it.
 	///This flag is used to determine when items in someone's inventory cover others. IE helmets making it so you can't see glasses, etc.
@@ -522,6 +520,10 @@
 	add_fingerprint(usr)
 	return ..()
 
+/obj/item/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_ADD_FANTASY_AFFIX, "Add Fantasy Affix")
+
 /obj/item/vv_do_topic(list/href_list)
 	. = ..()
 
@@ -694,7 +696,6 @@
 	if(item_flags & DROPDEL && !QDELETED(src))
 		qdel(src)
 	item_flags &= ~IN_INVENTORY
-	UnregisterSignal(src, list(SIGNAL_ADDTRAIT(TRAIT_NO_WORN_ICON), SIGNAL_REMOVETRAIT(TRAIT_NO_WORN_ICON)))
 	SEND_SIGNAL(src, COMSIG_ITEM_DROPPED, user)
 	if(!silent)
 		playsound(src, drop_sound, DROP_SOUND_VOLUME, vary = sound_vary, ignore_walls = FALSE)
@@ -759,7 +760,6 @@
 		give_item_action(action, user, slot)
 
 	item_flags |= IN_INVENTORY
-	RegisterSignals(src, list(SIGNAL_ADDTRAIT(TRAIT_NO_WORN_ICON), SIGNAL_REMOVETRAIT(TRAIT_NO_WORN_ICON)), PROC_REF(update_slot_icon), override = TRUE)
 	if(!initial)
 		if(equip_sound && (slot_flags & slot))
 			playsound(src, equip_sound, EQUIP_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
@@ -783,10 +783,6 @@
 /obj/item/proc/item_action_slot_check(slot, mob/user, datum/action/action)
 	if(slot & (ITEM_SLOT_BACKPACK|ITEM_SLOT_LEGCUFFED)) //these aren't true slots, so avoid granting actions there
 		return FALSE
-	if(!isnull(action_slots))
-		return (slot & action_slots)
-	else if (slot_flags)
-		return (slot & slot_flags)
 	return TRUE
 
 /**
@@ -928,7 +924,6 @@
 	return null
 
 /obj/item/proc/update_slot_icon()
-	SIGNAL_HANDLER
 	if(!ismob(loc))
 		return
 	var/mob/owner = loc

@@ -17,8 +17,6 @@ SUBSYSTEM_DEF(shuttle)
 	var/list/mobile_docking_ports = list()
 	/// A list of all the stationary docking ports.
 	var/list/stationary_docking_ports = list()
-	/// A list of all the custom shuttles.
-	var/list/custom_shuttles = list()
 	/// A list of all the beacons that can be docked to.
 	var/list/beacon_list = list()
 	/// A list of all the transit docking ports.
@@ -980,7 +978,7 @@ SUBSYSTEM_DEF(shuttle)
 		QDEL_NULL(preview_reservation)
 
 /datum/controller/subsystem/shuttle/ui_state(mob/user)
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/controller/subsystem/shuttle/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

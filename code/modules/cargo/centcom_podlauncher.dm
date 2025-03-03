@@ -124,7 +124,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, "Config/Launch Supplypod", "Configure a
 /datum/centcom_podlauncher/ui_state(mob/user)
 	if (SSticker.current_state >= GAME_STATE_FINISHED)
 		return GLOB.always_state //Allow the UI to be given to players by admins after roundend
-	return ADMIN_STATE(R_ADMIN)
+	return GLOB.admin_state
 
 /datum/centcom_podlauncher/ui_assets(mob/user)
 	return list(

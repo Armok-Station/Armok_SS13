@@ -6,6 +6,7 @@
 | Discussion                | [https://github.com/Armok-Station/Armok_SS13/discussions](https://github.com/Armok-Station/Armok_SS13/discussions)    |
 | Codedocs                  | [https://codedocs.tgstation13.org/](https://codedocs.tgstation13.org/)       |
 | Guide to Modularization   | [./modular_armok/readme.md](./modular_armok/readme.md)       |
+| Guide to Mirroring        | [./modular_armok/mirroring_guide.md](./modular_armok/mirroring_guide.md)       |
 
 This is the codebase for Armok 13, a Dwarf Fortress Anarachy server, which is a downstream fork of /tg/station based on SpaceStation 13.
 
